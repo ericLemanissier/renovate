@@ -19,14 +19,19 @@ class Pkg(ConanFile):
 
 
 
-def requirements(self):
-   if self.options.myoption:
-      self.requires("req_i/1.2@drl/testing")
-   else:
-      self.requires("req_i/2.2@drl/stable")
-      self.requires("req_k/1.2@drl/testing", private=True, override=False)
+   def requirements(self):
+      if self.options.myoption:
+         self.requires("req_i/1.2@drl/testing")
+      else:
+         self.requires("req_i/2.2@drl/stable")
+         self.requires("req_k/1.2@drl/testing", private=True, override=False)
 
+   def validate(self):
+      if self.settings.os in ['Linux', 'FreeBSD'] and self.options.with_gssapi:
+         raise ConanInvalidConfiguration("gssapi cannot be enabled until conan-io/conan-center-index#4102 is closed")
+      if not self.options.with_dbus and self.settings.os == "Linux":
+            raise ConanInvalidConfiguration("option qt:webengine requires also qt:with_dbus on Linux")
 
-def build_requirements(self):
-   if self.settings.os == "Windows":
-      self.build_requires("tool_win/0.1@user/stable")
+   def build_requirements(self):
+      if self.settings.os == "Windows":
+         self.build_requires("tool_win/0.1@user/stable")

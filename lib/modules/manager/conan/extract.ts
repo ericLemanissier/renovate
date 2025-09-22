@@ -24,8 +24,15 @@ export function extractPackageFile(content: string): PackageFileContent | null {
   const sections = content.split(regEx(/def |\n\[/)).filter(
     (part) =>
       part.includes('python_requires') || // only matches python_requires
-      part.includes('build_require') || // matches [build_requires], build_requirements(), and build_requires
-      part.includes('require'), // matches [requires], requirements(), and requires
+      part.includes('[requires]') || 
+      part.includes('[tool_requires]') ||
+      part.includes('[test_requires]') ||
+      part.includes('def build_requirements(self):') ||
+      part.includes('def requirements(self):') ||
+      part.includes('requires = ') ||
+      part.includes('tool_requires = ') ||
+      part.includes('test_requires = ') ||
+      part.includes('python_requires = '),
   );
 
   const deps: PackageDependency[] = [];
