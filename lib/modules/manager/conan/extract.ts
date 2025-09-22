@@ -24,7 +24,7 @@ export function extractPackageFile(content: string): PackageFileContent | null {
   const sections = content.split(regEx(/def |\n\[/)).filter(
     (part) =>
       part.includes('python_requires') || // only matches python_requires
-      part.includes('[requires]') || 
+      part.includes('[requires]') ||
       part.includes('[tool_requires]') ||
       part.includes('[test_requires]') ||
       part.includes('def build_requirements(self):') ||
