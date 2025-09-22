@@ -271,6 +271,13 @@ describe('modules/manager/conan/extract', () => {
           packageName: 'tool_win/0.1@user/stable',
           replaceString: 'tool_win/0.1@user/stable',
         },
+        {
+          currentValue: '2.3',
+          depName: 'tool',
+          depType: 'test_requires',
+          packageName: 'tool/2.3@user/channel',
+          replaceString: 'tool/2.3@user/channel',
+        },
       ]);
     });
   });
