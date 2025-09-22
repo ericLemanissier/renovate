@@ -34,4 +34,4 @@ class Pkg(ConanFile):
 
    def build_requirements(self):
       if self.settings.os == "Windows":
-         self.build_requires("tool_win/0.1@user/stable")
+         self.tool_requires("tool_win/0.1@user/stable")

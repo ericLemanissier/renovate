@@ -8,11 +8,11 @@ const conanfile3 = Fixtures.get('conanfile.py');
 describe('modules/manager/conan/extract', () => {
   describe('extractPackageFile', () => {
     it('returns null for empty', () => {
-      expect(extractPackageFile('nothing here')).toBeNull();
+      expect(extractPackageFile('nothing here', 'conanfile.txt')).toBeNull();
     });
 
     it('extracts multiple image lines from conanfile.txt', () => {
-      const res = extractPackageFile(conanfile1);
+      const res = extractPackageFile(conanfile1, 'conanfile.txt');
       expect(res?.deps).toEqual([
         {
           currentValue: '1.9.4',
@@ -65,14 +65,14 @@ describe('modules/manager/conan/extract', () => {
         {
           currentValue: '[>1.1 <2.1, include_prerelease=True]',
           depName: '7zip',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: '7zip/[>1.1 <2.1, include_prerelease=True]@_/_',
           replaceString: '7zip/[>1.1 <2.1, include_prerelease=True]',
         },
         {
           currentValue: '[~1.2.3, loose=False, include_prerelease=True]',
           depName: 'curl',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName:
             'curl/[~1.2.3, loose=False, include_prerelease=True]@test/dev',
           replaceString:
@@ -81,35 +81,35 @@ describe('modules/manager/conan/extract', () => {
         {
           currentValue: '[>1.1 <2.1]',
           depName: 'boost',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'boost/[>1.1 <2.1]@_/_',
           replaceString: 'boost/[>1.1 <2.1]',
         },
         {
           currentValue: '[2.8]',
           depName: 'catch2',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'catch2/[2.8]@_/_',
           replaceString: 'catch2/[2.8]',
         },
         {
           currentValue: '[~=3.0]',
           depName: 'openssl',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'openssl/[~=3.0]@test/prod',
           replaceString: 'openssl/[~=3.0]@test/prod',
         },
         {
           currentValue: '[>1.1 || 0.8]',
           depName: 'cmake',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'cmake/[>1.1 || 0.8]@_/_',
           replaceString: 'cmake/[>1.1 || 0.8]',
         },
         {
           currentValue: '[1.2.7 || >=1.2.9 <2.0.0]',
           depName: 'cryptopp',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'cryptopp/[1.2.7 || >=1.2.9 <2.0.0]@test/local',
           replaceString: 'cryptopp/[1.2.7 || >=1.2.9 <2.0.0]@test/local',
         },
@@ -119,7 +119,7 @@ describe('modules/manager/conan/extract', () => {
           currentDigest: 'bc592346b33fd19c1fbffce25d1e4236',
           currentValue: '0.63.0',
           depName: 'meson',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'meson/0.63.0@_/_',
           replaceString: 'meson/0.63.0@_/_#bc592346b33fd19c1fbffce25d1e4236',
         },
@@ -127,12 +127,12 @@ describe('modules/manager/conan/extract', () => {
     });
 
     it('extracts multiple 0 lines from conanfile.txt', () => {
-      const res = extractPackageFile(conanfile2);
+      const res = extractPackageFile(conanfile2, 'conanfile.txt');
       expect(res).toBeNull();
     });
 
     it('extracts multiple image lines from conanfile.py', () => {
-      const res = extractPackageFile(conanfile3);
+      const res = extractPackageFile(conanfile3, 'conanfile.py');
       expect(res?.deps).toEqual([
         {
           currentValue: '0.1',
@@ -144,14 +144,14 @@ describe('modules/manager/conan/extract', () => {
         {
           currentValue: '0.2',
           depName: 'tool_a',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'tool_a/0.2@user/testing',
           replaceString: 'tool_a/0.2@user/testing',
         },
         {
           currentValue: '0.2',
           depName: 'tool_b',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'tool_b/0.2@user/testing',
           replaceString: 'tool_b/0.2@user/testing',
         },
@@ -267,7 +267,7 @@ describe('modules/manager/conan/extract', () => {
         {
           currentValue: '0.1',
           depName: 'tool_win',
-          depType: 'build_requires',
+          depType: 'tool_requires',
           packageName: 'tool_win/0.1@user/stable',
           replaceString: 'tool_win/0.1@user/stable',
         },
