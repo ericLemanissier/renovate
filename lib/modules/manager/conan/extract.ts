@@ -15,6 +15,8 @@ function setDepType(content: string, originalType: string): string {
     depType = 'tool_requires';
   } else if (content.includes('test_requires')) {
     depType = 'test_requires';
+  } else if (content.includes('build_requires')) {
+    depType = 'build_requires';
   } else if (content.includes('requires') || content.includes('requirements')) {
     depType = 'requires';
   }
@@ -87,6 +89,7 @@ export function extractPackageFile(
         part.startsWith('build_requirements(self):') ||
         part.startsWith('requirements(self):') ||
         part.includes('requires = ') ||
+        part.includes('build_requires = ') ||
         part.includes('tool_requires = ') ||
         part.includes('test_requires = ') ||
         part.includes('python_requires = '),
